@@ -7,7 +7,6 @@ import com.peluquerias.api.model.usuarioCliente;
 import com.peluquerias.api.repository.superadminRepository;
 import com.peluquerias.api.repository.usuarioClienteRepository;
 import com.peluquerias.api.security.jwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class authService {
 
     private final superadminRepository superadminRepository;
@@ -23,21 +21,31 @@ public class authService {
     private final jwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
+    public authService(superadminRepository superadminRepository,
+                       usuarioClienteRepository usuarioClienteRepository,
+                       jwtService jwtService,
+                       PasswordEncoder passwordEncoder) {
+        this.superadminRepository = superadminRepository;
+        this.usuarioClienteRepository = usuarioClienteRepository;
+        this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     public loginResponse login(loginRequest request) {
 
-        // Primero busca en superadmin
         Optional<superadmin> superadmin = superadminRepository.findByEmail(request.getEmail());
         if (superadmin.isPresent()) {
             if (!passwordEncoder.matches(request.getPassword(), superadmin.get().getPasswordHash())) {
                 throw new RuntimeException("Credenciales incorrectas");
             }
             Map<String, Object> claims = new HashMap<>();
-            claims.put("rol", "superadmin");
+            claims.put("id", superadmin.get().getId().toString());
+            claims.put("rolId", superadmin.get().getRol().getId());
+            claims.put("rol", superadmin.get().getRol().getNombre());
             String token = jwtService.generarToken(request.getEmail(), claims);
-            return new loginResponse(token, "superadmin", "Panel Admin");
+            return new loginResponse(token, superadmin.get().getRol().getNombre(), "Panel Admin");
         }
 
-        // Si no es superadmin busca en usuarios_clientes
         Optional<usuarioCliente> usuarioCliente = usuarioClienteRepository.findByEmail(request.getEmail());
         if (usuarioCliente.isPresent()) {
             if (!passwordEncoder.matches(request.getPassword(), usuarioCliente.get().getPasswordHash())) {
@@ -47,12 +55,14 @@ public class authService {
                 throw new RuntimeException("Suscripción inactiva");
             }
             Map<String, Object> claims = new HashMap<>();
-            claims.put("rol", "admin");
+            claims.put("id", usuarioCliente.get().getId().toString());
+            claims.put("rolId", usuarioCliente.get().getRol().getId());
+            claims.put("rol", usuarioCliente.get().getRol().getNombre());
             claims.put("clienteId", usuarioCliente.get().getCliente().getId().toString());
             claims.put("dbUrl", usuarioCliente.get().getCliente().getDbUrl());
             claims.put("nombreLocal", usuarioCliente.get().getCliente().getNombreLocal());
             String token = jwtService.generarToken(request.getEmail(), claims);
-            return new loginResponse(token, "admin", usuarioCliente.get().getCliente().getNombreLocal());
+            return new loginResponse(token, usuarioCliente.get().getRol().getNombre(), usuarioCliente.get().getCliente().getNombreLocal());
         }
 
         throw new RuntimeException("Credenciales incorrectas");

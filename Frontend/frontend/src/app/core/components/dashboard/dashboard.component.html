@@ -1,0 +1,53 @@
+<div class="content">
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats" [class.gold]="stat.gold">
+      <div class="stat-label">{{ stat.label }}</div>
+      <div class="stat-value">{{ stat.valor }}</div>
+      <div class="stat-delta" [class.down]="!stat.positivo">{{ stat.delta }}</div>
+    </div>
+  </div>
+
+  <div class="section-row">
+    <div class="card">
+      <div class="card-title">
+        {{ t.dashboard.proximasCitas }}
+        <span (click)="navegarA('/agenda')">{{ t.dashboard.verTodas }}</span>
+      </div>
+      <div class="cita-item" *ngFor="let cita of proximasCitas">
+        <div class="cita-hora">{{ cita.hora }}</div>
+        <div class="cita-info">
+          <div class="cita-nombre">{{ cita.cliente }}</div>
+          <div class="cita-servicio">{{ cita.servicio }}</div>
+        </div>
+        <div class="cita-badge"
+             [class.badge-confirmada]="cita.estado === 'confirmada'"
+             [class.badge-pendiente]="cita.estado === 'pendiente'">
+          {{ cita.estado | titlecase }}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        {{ t.dashboard.rendimientoEmpleados }}
+        <span (click)="navegarA('/empleados')">{{ t.dashboard.verDetalle }}</span>
+      </div>
+      <div class="empleado-item" *ngFor="let emp de empleados">
+        <div class="emp-avatar"
+             [style.background]="emp.colorFondo"
+             [style.color]="emp.color">
+          {{ emp.iniciales }}
+        </div>
+        <div class="emp-info">
+          <div class="emp-nombre">{{ emp.nombre }}</div>
+          <div class="emp-citas">{{ emp.citas }} citas hoy</div>
+        </div>
+        <div class="emp-bar-wrap">
+          <div class="emp-bar-bg">
+            <div class="emp-bar" [style.width.%]="emp.porcentaje"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

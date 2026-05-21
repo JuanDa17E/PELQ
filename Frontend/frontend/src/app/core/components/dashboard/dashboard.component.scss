@@ -1,0 +1,458 @@
+// ============================================================
+//  VARIABLES GLOBALES DE COLOR
+// ============================================================
+$gold:        #C9A84C;
+$gold-dark:   #3a2e10;
+$gold-bg:     #1e1a0e;
+$bg-app:      #0a0a0a;
+$bg-sidebar:  #111111;
+$bg-main:     #0d0d0d;
+$bg-card:     #111111;
+$bg-hover:    #1a1a1a;
+$border:      #2a2a2a;
+$border-main: #1e1e1e;
+$text-primary:#e8e8e8;
+$text-muted:  #888888;
+$text-hint:   #555555;
+$text-dark:   #444444;
+$green:       #7a9e5a;
+$red:         #a85a5a;
+
+// ============================================================
+//  LAYOUT PRINCIPAL
+// ============================================================
+.app {
+  display: flex;
+  height: 100vh;
+  background: $bg-app;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+// ============================================================
+//  SIDEBAR
+// ============================================================
+.sidebar {
+  width: 220px;
+  background: $bg-sidebar;
+  border-right: 0.5px solid $border;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 20px 16px 16px;
+  border-bottom: 0.5px solid $border;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &-icon {
+    width: 32px;
+    height: 32px;
+    background: $gold;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i { color: $bg-app; font-size: 18px; }
+  }
+
+  &-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: $gold;
+    letter-spacing: 0.3px;
+  }
+
+  &-sub {
+    font-size: 11px;
+    color: $text-hint;
+    margin-top: 1px;
+  }
+}
+
+.search-box {
+  margin-top: 12px;
+  background: $bg-hover;
+  border: 0.5px solid $border;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+
+  i    { color: $text-hint; font-size: 14px; }
+  span { font-size: 13px; color: $text-dark; }
+}
+
+// ============================================================
+//  NAVEGACIÓN
+// ============================================================
+.nav {
+  flex: 1;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+
+  &-section {
+    font-size: 10px;
+    color: $text-dark;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 8px 4px;
+    margin-top: 4px;
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    i    { color: $text-hint; font-size: 17px; }
+    span { font-size: 13px; color: $text-muted; }
+
+    &:hover { background: $bg-hover; }
+
+    &.active {
+      background: $gold-bg;
+      border: 0.5px solid $gold-dark;
+
+      i    { color: $gold; }
+      span { color: $gold; font-weight: 500; }
+    }
+  }
+
+  &-badge {
+    margin-left: auto;
+    background: $gold;
+    color: $bg-app;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+}
+
+// ============================================================
+//  FOOTER DEL SIDEBAR
+// ============================================================
+.sidebar-footer {
+  padding: 12px 8px;
+  border-top: 0.5px solid $border;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover { background: $bg-hover; }
+
+  i { color: $text-dark; font-size: 16px; }
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2a2010;
+  border: 1px solid $gold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: $gold;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 13px;
+  color: #cccccc;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: 11px;
+  color: $text-hint;
+}
+
+// ============================================================
+//  CONTENIDO PRINCIPAL
+// ============================================================
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: $bg-main;
+  overflow: hidden;
+}
+
+.topbar {
+  padding: 16px 24px;
+  border-bottom: 0.5px solid $border-main;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: $text-primary;
+}
+
+.page-sub {
+  font-size: 12px;
+  color: $text-hint;
+  margin-top: 2px;
+  text-transform: capitalize;
+}
+
+.btn-primary {
+  background: $gold;
+  color: $bg-app;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.9; }
+}
+
+.btn-icon {
+  background: $bg-hover;
+  border: 0.5px solid $border;
+  color: $text-muted;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover { background: $border; }
+}
+
+.content {
+  flex: 1;
+  padding: 20px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ============================================================
+//  ESTADÍSTICAS
+// ============================================================
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.stat-card {
+  background: $bg-card;
+  border: 0.5px solid $border-main;
+  border-radius: 10px;
+  padding: 14px 16px;
+
+  &.gold {
+    border-color: $gold-dark;
+    .stat-value { color: $gold; }
+  }
+}
+
+.stat-label {
+  font-size: 11px;
+  color: $text-hint;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 500;
+  color: $text-primary;
+  margin-top: 4px;
+}
+
+.stat-delta {
+  font-size: 11px;
+  color: $green;
+  margin-top: 3px;
+
+  &.down { color: $red; }
+}
+
+// ============================================================
+//  SECCIÓN DOS COLUMNAS
+// ============================================================
+.section-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.card {
+  background: $bg-card;
+  border: 0.5px solid $border-main;
+  border-radius: 10px;
+  padding: 16px;
+
+  &-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #aaaaaa;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      font-size: 11px;
+      color: $gold;
+      cursor: pointer;
+    }
+  }
+}
+
+// ============================================================
+//  CITAS
+// ============================================================
+.cita-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 0.5px solid $bg-hover;
+
+  &:last-child { border-bottom: none; }
+}
+
+.cita-hora {
+  font-size: 11px;
+  color: $gold;
+  font-weight: 500;
+  min-width: 38px;
+}
+
+.cita-info { flex: 1; }
+
+.cita-nombre {
+  font-size: 13px;
+  color: #cccccc;
+}
+
+.cita-servicio {
+  font-size: 11px;
+  color: $text-hint;
+}
+
+.cita-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.badge-confirmada {
+  background: #0f2010;
+  color: $green;
+  border: 0.5px solid #2a4020;
+}
+
+.badge-pendiente {
+  background: $gold-bg;
+  color: $gold;
+  border: 0.5px solid $gold-dark;
+}
+
+// ============================================================
+//  EMPLEADOS
+// ============================================================
+.empleado-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 0.5px solid $bg-hover;
+
+  &:last-child { border-bottom: none; }
+}
+
+.emp-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.emp-info { flex: 1; }
+
+.emp-nombre {
+  font-size: 13px;
+  color: #cccccc;
+}
+
+.emp-citas {
+  font-size: 11px;
+  color: $text-hint;
+}
+
+.emp-bar-wrap { width: 60px; }
+
+.emp-bar-bg {
+  height: 4px;
+  background: $bg-hover;
+  border-radius: 2px;
+}
+
+.emp-bar {
+  height: 4px;
+  background: $gold;
+  border-radius: 2px;
+}

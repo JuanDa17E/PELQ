@@ -1,0 +1,56 @@
+<div class="login-wrapper">
+  <div class="login-card">
+
+    <div class="login-brand">
+      <div class="brand-icon">
+        <i class="ti ti-scissors" aria-hidden="true"></i>
+      </div>
+      <div class="brand-name">{{ t.app.nombre }}</div>
+    </div>
+
+    <div class="login-header">
+      <h1 class="login-titulo">{{ t.login.titulo }}</h1>
+      <p class="login-subtitulo">{{ t.login.subtitulo }}</p>
+    </div>
+
+    <div class="login-form">
+      <div class="form-group">
+        <label>{{ t.login.email }}</label>
+        <input
+          type="email"
+          [placeholder]="t.login.placeholder.email"
+          [(ngModel)]="email"
+          [class.error]="hayError"/>
+      </div>
+
+      <div class="form-group">
+        <label>{{ t.login.password }}</label>
+        <div class="input-password">
+          <input
+            [type]="mostrarPassword ? 'text' : 'password'"
+            [placeholder]="t.login.placeholder.password"
+            [(ngModel)]="password"
+            [class.error]="hayError"/>
+          <i class="ti"
+             [class.ti-eye]="!mostrarPassword"
+             [class.ti-eye-off]="mostrarPassword"
+             (click)="togglePassword()"
+             aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="error-msg" *ngIf="hayError">
+        <i class="ti ti-alert-circle" aria-hidden="true"></i>
+        {{ t.login.error }}
+      </div>
+
+      <button class="btn-login" (click)="iniciarSesion()" [disabled]="cargando">
+        <span *ngIf="!cargando">{{ t.login.boton }}</span>
+        <span *ngIf="cargando">
+          <i class="ti ti-loader" aria-hidden="true"></i>
+        </span>
+      </button>
+    </div>
+
+  </div>
+</div>

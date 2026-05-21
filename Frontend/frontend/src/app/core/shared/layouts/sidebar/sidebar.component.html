@@ -1,0 +1,64 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <i class="ti ti-scissors" aria-hidden="true"></i>
+      </div>
+      <div>
+        <div class="brand-name">BarberPro</div>
+        <div class="brand-sub">Peluquería Central</div>
+      </div>
+    </div>
+    <div class="search-box">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <span>Buscar...</span>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-section">Principal</div>
+    <div class="nav-item" *ngFor="let item of navPrincipal"
+         [class.active]="isActive(item.ruta)"
+         (click)="navegarA(item.ruta)">
+      <i class="ti {{ item.icono }}" aria-hidden="true"></i>
+      <span>{{ item.label }}</span>
+      <span class="nav-badge" *ngIf="item.badge">{{ item.badge }}</span>
+    </div>
+
+    <div class="nav-section">Gestión</div>
+    <div class="nav-item" *ngFor="let item of navGestion"
+         [class.active]="isActive(item.ruta)"
+         (click)="navegarA(item.ruta)">
+      <i class="ti {{ item.icono }}" aria-hidden="true"></i>
+      <span>{{ item.label }}</span>
+    </div>
+
+    <div class="nav-section">Operaciones</div>
+    <div class="nav-item" *ngFor="let item of navOperaciones"
+         [class.active]="isActive(item.ruta)"
+         (click)="navegarA(item.ruta)">
+      <i class="ti {{ item.icono }}" aria-hidden="true"></i>
+      <span>{{ item.label }}</span>
+    </div>
+
+    <div class="nav-section">Sistema</div>
+    <div class="nav-item" *ngFor="let item of navSistema"
+         [class.active]="isActive(item.ruta)"
+         (click)="navegarA(item.ruta)">
+      <i class="ti {{ item.icono }}" aria-hidden="true"></i>
+      <span>{{ item.label }}</span>
+      <span class="nav-badge" *ngIf="item.badge">{{ item.badge }}</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="avatar">JD</div>
+      <div class="user-info">
+        <div class="user-name">Juan Dueño</div>
+        <div class="user-role">Administrador</div>
+      </div>
+      <i class="ti ti-dots-vertical" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>

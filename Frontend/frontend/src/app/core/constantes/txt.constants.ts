@@ -1,0 +1,72 @@
+export const txt = {
+  app: {
+    nombre: 'BarberPro',
+    subtitulo: 'Peluquería Central',
+  },
+  nav: {
+    buscar: 'Buscar...',
+    secciones: {
+      principal: 'Principal',
+      gestion: 'Gestión',
+      operaciones: 'Operaciones',
+      sistema: 'Sistema',
+    },
+    items: {
+      dashboard:      'Dashboard',
+      agenda:         'Agenda',
+      citasHoy:       'Citas de hoy',
+      clientes:       'Clientes',
+      empleados:      'Empleados',
+      servicios:      'Servicios',
+      inventario:     'Inventario',
+      reportes:       'Reportes',
+      notificaciones: 'Notificaciones',
+      configuracion:  'Configuración',
+    },
+  },
+  paginas: {
+    '/dashboard':      { titulo: 'Dashboard',      boton: 'Nueva cita'      },
+    '/agenda':         { titulo: 'Agenda',          boton: 'Nueva cita'      },
+    '/citas':          { titulo: 'Citas de hoy',    boton: 'Nueva cita'      },
+    '/clientes':       { titulo: 'Clientes',        boton: 'Nuevo cliente'   },
+    '/empleados':      { titulo: 'Empleados',       boton: 'Nuevo empleado'  },
+    '/servicios':      { titulo: 'Servicios',       boton: 'Nuevo servicio'  },
+    '/inventario':     { titulo: 'Inventario',      boton: 'Nuevo producto'  },
+    '/reportes':       { titulo: 'Reportes',        boton: 'Exportar'        },
+    '/notificaciones': { titulo: 'Notificaciones',  boton: ''                },
+    '/configuracion':  { titulo: 'Configuración',   boton: ''                },
+  } as Record<string, { titulo: string; boton: string }>,
+  dashboard: {
+    titulo:                  'Dashboard',
+    nuevaCita:               'Nueva cita',
+    stats: {
+      citasHoy:        'Citas hoy',
+      ingresosHoy:     'Ingresos hoy',
+      clientesActivos: 'Clientes activos',
+      noShows:         'No-shows',
+    },
+    proximasCitas:           'Próximas citas',
+    verTodas:                'Ver todas →',
+    rendimientoEmpleados:    'Rendimiento empleados',
+    verDetalle:              'Ver detalle →',
+  },
+  usuario: {
+    rol: {
+      admin:         'Administrador',
+      recepcionista: 'Recepcionista',
+      empleado:      'Empleado',
+    },
+  },
+  login: {
+  titulo:       'Bienvenido',
+  subtitulo:    'Inicia sesión para continuar',
+  email:        'Correo electrónico',
+  password:     'Contraseña',
+  boton:        'Iniciar sesión',
+  error:        'Correo o contraseña incorrectos',
+  placeholder: {
+    email:    'tucorreo@email.com',
+    password: '••••••••',
+    },
+  },
+};

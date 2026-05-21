@@ -1,0 +1,41 @@
+# ========================
+# BACKEND - Java / Maven
+# ========================
+Backend/target/
+Backend/.mvn/wrapper/maven-wrapper.jar
+Backend/*.class
+Backend/*.jar
+Backend/*.war
+Backend/.settings/
+Backend/.classpath
+Backend/.project
+Backend/.factorypath
+
+# Variables de entorno
+Backend/src/main/resources/application.properties
+
+# ========================
+# FRONTEND - Angular / Node
+# ========================
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.env
+
+# ========================
+# SISTEMA OPERATIVO
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================
+# IDEs
+# ========================
+.idea/
+*.iml
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates

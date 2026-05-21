@@ -1,0 +1,65 @@
+$gold:       #C9A84C;
+$bg-hover:   #1a1a1a;
+$border:     #2a2a2a;
+$text-primary: #e8e8e8;
+$text-hint:  #555555;
+
+.topbar {
+  padding: 16px 24px;
+  border-bottom: 0.5px solid #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: $text-primary;
+}
+
+.page-sub {
+  font-size: 12px;
+  color: $text-hint;
+  margin-top: 2px;
+  text-transform: capitalize;
+}
+
+.btn-primary {
+  background: $gold;
+  color: #0a0a0a;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.9; }
+}
+
+.btn-icon {
+  background: $bg-hover;
+  border: 0.5px solid $border;
+  color: #888888;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover { background: $border; }
+}

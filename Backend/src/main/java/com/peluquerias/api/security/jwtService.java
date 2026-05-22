@@ -39,6 +39,15 @@ public class jwtService {
                 .getPayload()
                 .getSubject();
     }
+    
+    public String extraerClaim(String token, String claim) {
+        return (String) Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get(claim);
+    }
 
     public boolean validarToken(String token) {
         try {

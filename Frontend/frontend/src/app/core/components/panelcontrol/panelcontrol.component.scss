@@ -1,0 +1,95 @@
+$gold:    #C9A84C;
+$bg:      #0d0d0d;
+$bg-card: #111111;
+$border:  #1e1e1e;
+$text:    #e8e8e8;
+$muted:   #888888;
+$hint:    #555555;
+$green:   #7a9e5a;
+$red:     #a85a5a;
+
+.admin {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-titulo {
+  font-size: 18px;
+  font-weight: 500;
+  color: $text;
+}
+
+.btn-nuevo {
+  background: $gold;
+  color: #0a0a0a;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &:hover { opacity: 0.9; }
+}
+
+.tabla-wrapper {
+  background: $bg-card;
+  border: 0.5px solid $border;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 11px;
+    color: $hint;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 0.5px solid $border;
+  }
+
+  td {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: $muted;
+    border-bottom: 0.5px solid $border;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #1a1a1a; }
+}
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+
+  &.activo {
+    background: #0f2010;
+    color: $green;
+    border: 0.5px solid #2a4020;
+  }
+
+  &.inactivo {
+    background: #1a0f0f;
+    color: $red;
+    border: 0.5px solid #3a1a1a;
+  }
+}

@@ -1,0 +1,35 @@
+<div class="admin">
+  <div class="admin-header">
+    <h2 class="admin-titulo">Clientes registrados</h2>
+    <button class="btn-nuevo" (click)="mostrarFormulario = true">
+      <i class="ti ti-plus"></i> Nuevo cliente
+    </button>
+  </div>
+
+  <div class="tabla-wrapper">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Local</th>
+          <th>Contacto</th>
+          <th>Email</th>
+          <th>Vencimiento</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>{{ cliente.nombreLocal }}</td>
+          <td>{{ cliente.nombreContacto }}</td>
+          <td>{{ cliente.email }}</td>
+          <td>{{ cliente.fechaVencimiento | date:'dd/MM/yyyy' }}</td>
+          <td>
+            <span class="badge" [class.activo]="cliente.activo" [class.inactivo]="!cliente.activo">
+              {{ cliente.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

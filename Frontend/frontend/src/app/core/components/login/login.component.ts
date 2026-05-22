@@ -41,7 +41,7 @@ export class LoginComponent {
       next: () => {
         this.cargando = false;
         if (this.storageService.esSuperadmin()) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/panelcontrol']);
         } else {
           this.router.navigate(['/dashboard']);
         }

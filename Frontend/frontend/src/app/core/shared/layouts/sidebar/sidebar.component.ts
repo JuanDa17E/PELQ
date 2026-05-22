@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { txt } from '../../../constantes/txt.constants';
+import { StorageService } from '../../../services/storage.service';
+import { inactividadService } from '../../../services/inactividad.service';
 
 
 interface NavItem {
@@ -16,11 +18,23 @@ interface NavItem {
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
+
+export class SidebarComponent implements OnInit {
+
+  constructor(
+    private router: Router,
+    private storageService: StorageService,
+    private inactividadService: inactividadService
+  ) {}
+    
 
   t = txt;
+  menuAbierto: boolean = false;
+  nombreLocal: string = '';
+  rol: string = '';
+  iniciales: string = '';
 
   navPrincipal: NavItem[] = [
     { icono: 'ti-layout-dashboard', label: this.t.nav.items.dashboard,      ruta: '/dashboard'      },
@@ -44,7 +58,18 @@ export class SidebarComponent {
     { icono: 'ti-settings', label: this.t.nav.items.configuracion,  ruta: '/configuracion'           },
   ];
 
-  constructor(private router: Router) {}
+
+
+  ngOnInit(): void {
+    this.nombreLocal = this.storageService.obtenerNombreLocal();
+    this.rol = this.storageService.obtenerRol();
+    this.iniciales = this.nombreLocal
+        .split(' ')
+        .map(p => p[0])
+        .join('')
+        .substring(0, 2)
+        .toUpperCase();
+    }
 
   navegarA(ruta: string): void {
     this.router.navigate([ruta]);
@@ -53,4 +78,12 @@ export class SidebarComponent {
   isActive(ruta: string): boolean {
     return this.router.url === ruta;
   }
+  toggleMenu(): void {
+  this.menuAbierto = !this.menuAbierto;
+    }
+
+  cerrarSesion(): void {
+  this.menuAbierto = false;
+  this.inactividadService.cerrarSesion();
+    }
 }

@@ -1,0 +1,96 @@
+<div class="agenda">
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <button class="btn-hoy" (click)="irAHoy()">Hoy</button>
+      <button class="btn-nav" (click)="anterior()">
+        <i class="ti ti-chevron-left"></i>
+      </button>
+      <button class="btn-nav" (click)="siguiente()">
+        <i class="ti ti-chevron-right"></i>
+      </button>
+      <span class="titulo-nav">{{ getTituloNavegacion() }}</span>
+    </div>
+    <div class="toolbar-right">
+      <div class="vista-tabs">
+        <button [class.active]="vistaActual === 'semana'" (click)="cambiarVista('semana')">Semana</button>
+        <button [class.active]="vistaActual === 'mes'" (click)="cambiarVista('mes')">Mes</button>
+        <button [class.active]="vistaActual === 'año'" (click)="cambiarVista('año')">Año</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISTA SEMANA -->
+  <div class="vista-semana" *ngIf="vistaActual === 'semana'">
+    <div class="semana-header">
+      <div class="hora-col"></div>
+      <div class="dia-col" *ngFor="let dia of getDiasSemana()"
+           [class.hoy]="esHoy(dia)">
+        <div class="dia-nombre">{{ diasSemana[dia.getDay()] }}</div>
+        <div class="dia-numero" [class.hoy-numero]="esHoy(dia)">{{ dia.getDate() }}</div>
+      </div>
+    </div>
+    <div class="semana-body">
+      <div class="hora-col">
+        <div class="hora-slot" *ngFor="let hora of horas">{{ hora }}</div>
+      </div>
+      <div class="dia-col" *ngFor="let dia of getDiasSemana()" [class.hoy]="esHoy(dia)">
+        <div class="hora-slot" *ngFor="let hora of horas"></div>
+        <div class="cita-bloque"
+             *ngFor="let cita of getCitasDia(dia)"
+             [style.top.px]="getTopCitaAbsoluto(cita)"
+             [style.height.px]="getAlturaCita(cita)"
+             [style.background]="cita.color + '33'"
+             [style.border-left]="'3px solid ' + cita.color">
+          <div class="cita-titulo">{{ cita.titulo }}</div>
+          <div class="cita-hora-text">{{ cita.horaInicio }} - {{ cita.horaFin }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISTA MES -->
+  <div class="vista-mes" *ngIf="vistaActual === 'mes'">
+    <div class="mes-header">
+      <div class="mes-dia-nombre" *ngFor="let dia of diasSemana">{{ dia }}</div>
+    </div>
+    <div class="mes-grid">
+      <div class="mes-dia"
+           *ngFor="let dia of getDiasMes()"
+           [class.vacio]="!dia"
+           [class.hoy]="dia && esHoy(dia)"
+           [class.tiene-citas]="dia && tieneCitasMes(dia)"
+           (click)="dia && irASemanaDesdemes(dia)">
+        <span *ngIf="dia">{{ dia.getDate() }}</span>
+        <div class="mes-puntos" *ngIf="dia && tieneCitasMes(dia)">
+          <span class="punto" *ngFor="let cita of getCitasDia(dia)"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISTA AÑO -->
+  <div class="vista-anio" *ngIf="vistaActual === 'año'">
+    <div class="anio-grid">
+      <div class="anio-mes" *ngFor="let mes of getMesesAnio()" (click)="irAMesDesdeAnio(mes.numero)">
+        <div class="anio-mes-nombre">{{ mes.nombre }}</div>
+        <div class="anio-mes-mini">
+          <div class="mini-header">
+            <span *ngFor="let d of diasSemana">{{ d[0] }}</span>
+          </div>
+          <div class="mini-grid">
+            <ng-container *ngFor="let dia of getDiasMiniMes(mes.numero)">
+              <span [class.hoy]="dia && esHoyMes(dia, mes.numero)"
+                    [class.vacio]="!dia"
+                    [class.tiene-cita]="dia && tieneCitaMes(dia, mes.numero)">
+                {{ dia || '' }}
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

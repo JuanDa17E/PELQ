@@ -1,10 +1,11 @@
 package com.peluquerias.api.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -17,29 +18,49 @@ public class dataSourceConfig {
     private String adminUrl;
 
     @Value("${spring.datasource.username}")
-    private String username;
+    private String adminUser;
 
     @Value("${spring.datasource.password}")
-    private String password;
+    private String adminPassword;
+
+    private tenantDataSource routingDataSource;
+    private final Map<Object, Object> targetDataSources = new HashMap<>();
 
     @Bean
     @Primary
     public DataSource dataSource() {
-        tenantDataSource routingDataSource = new tenantDataSource();
+        HikariDataSource adminDs = crearPool("admin", adminUrl, adminUser, adminPassword);
+        targetDataSources.put("admin", adminDs);
 
-        DriverManagerDataSource adminDataSource = new DriverManagerDataSource();
-        adminDataSource.setUrl(adminUrl);
-        adminDataSource.setUsername(username);
-        adminDataSource.setPassword(password);
-        adminDataSource.setDriverClassName("org.postgresql.Driver");
-
-        Map<Object, Object> dataSources = new HashMap<>();
-        dataSources.put("admin", adminDataSource);
-
-        routingDataSource.setTargetDataSources(dataSources);
-        routingDataSource.setDefaultTargetDataSource(adminDataSource);
+        routingDataSource = new tenantDataSource();
+        routingDataSource.setDefaultTargetDataSource(adminDs);
+        routingDataSource.setTargetDataSources(targetDataSources);
         routingDataSource.afterPropertiesSet();
 
         return routingDataSource;
+    }
+
+    public void registrarTenant(String tenantId, String url, String user, String password) {
+        if (targetDataSources.containsKey(tenantId)) return;
+
+        HikariDataSource ds = crearPool(tenantId, url, user, password);
+        targetDataSources.put(tenantId, ds);
+        routingDataSource.setTargetDataSources(targetDataSources);
+        routingDataSource.afterPropertiesSet();
+    }
+
+    private HikariDataSource crearPool(String poolName, String url, String user, String password) {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(url + "?prepareThreshold=0");
+        config.setUsername(user);
+        config.setPassword(password);
+        config.setDriverClassName("org.postgresql.Driver");
+        config.setPoolName("pool-" + poolName);
+        config.setMaximumPoolSize(5);
+        config.setMinimumIdle(1);
+        config.setConnectionTimeout(30000);
+        config.setIdleTimeout(600000);
+        config.setMaxLifetime(1800000);
+        return new HikariDataSource(config);
     }
 }

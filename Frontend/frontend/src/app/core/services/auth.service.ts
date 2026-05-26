@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 export interface LoginRequest {
   email: string;
@@ -21,7 +22,7 @@ export interface LoginResponse {
 })
 export class AuthService {
 
-  private apiUrl = 'https://pelq.onrender.com/api/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   constructor(
     private http: HttpClient,

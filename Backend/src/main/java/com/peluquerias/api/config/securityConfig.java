@@ -55,8 +55,8 @@ public class securityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterAfter(tenantFilter, jwtFilter.getClass());
+            .addFilterBefore(tenantFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(jwtFilter, tenantFilter.getClass());
         return http.build();
     }
 }

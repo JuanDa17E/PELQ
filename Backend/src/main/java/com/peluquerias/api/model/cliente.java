@@ -31,7 +31,13 @@ public class cliente {
 
     @Column(name = "db_url", nullable = false)
     private String dbUrl;
+    
+    @Column(name = "db_username")
+    private String dbUsername;
 
+    @Column(name = "db_password")
+    private String dbPassword;
+    
     @Column(nullable = false)
     private Boolean activo;
 

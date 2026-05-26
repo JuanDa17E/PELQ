@@ -22,6 +22,12 @@ public class registroClienteRequest {
 
     @NotBlank
     private String dbUrl;
+    
+    @NotBlank
+    private String dbUsername;
+
+    @NotBlank
+    private String dbPassword;
 
     @NotNull
     private LocalDate fechaVencimiento;

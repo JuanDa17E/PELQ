@@ -28,15 +28,14 @@ public class tenantFilter extends OncePerRequestFilter {
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 String token = authHeader.substring(7);
                 if (jwtService.validarToken(token)) {
-                    String dbUrl = jwtService.extraerClaim(token, "dbUrl");
-                    if (dbUrl != null && !dbUrl.isEmpty()) {
-                        tenantContext.setDbUrl(dbUrl);
-                    } else {
-                        tenantContext.setDbUrl("admin");
-                    }
+                    String tenantId = jwtService.extraerClaim(token, "tenantId");
+                    System.out.println("=== tenantFilter === tenantId: " + tenantId);
+                    tenantContext.set(tenantId != null ? tenantId : "admin");
+                } else {
+                    tenantContext.set("admin");
                 }
             } else {
-                tenantContext.setDbUrl("admin");
+                tenantContext.set("admin");
             }
             filterChain.doFilter(request, response);
         } finally {

@@ -59,7 +59,7 @@ public class authService {
             claims.put("rolId", usuarioCliente.get().getRol().getId());
             claims.put("rol", usuarioCliente.get().getRol().getNombre());
             claims.put("clienteId", usuarioCliente.get().getCliente().getId().toString());
-            claims.put("dbUrl", usuarioCliente.get().getCliente().getDbUrl());
+            claims.put("tenantId", usuarioCliente.get().getCliente().getId().toString());
             claims.put("nombreLocal", usuarioCliente.get().getCliente().getNombreLocal());
             String token = jwtService.generarToken(request.getEmail(), claims);
             return new loginResponse(token, usuarioCliente.get().getRol().getNombre(), usuarioCliente.get().getCliente().getNombreLocal());

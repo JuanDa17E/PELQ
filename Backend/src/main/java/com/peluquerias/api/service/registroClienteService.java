@@ -7,6 +7,9 @@ import com.peluquerias.api.model.usuarioCliente;
 import com.peluquerias.api.repository.clienteRepository;
 import com.peluquerias.api.repository.rolRepository;
 import com.peluquerias.api.repository.usuarioClienteRepository;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +43,8 @@ public class registroClienteService {
         nuevoCliente.setTelefono(request.getTelefono());
         nuevoCliente.setEmail(request.getEmailLocal());
         nuevoCliente.setDbUrl(request.getDbUrl());
+        nuevoCliente.setDbUsername(request.getDbUsername());
+        nuevoCliente.setDbPassword(request.getDbPassword());
         nuevoCliente.setActivo(true);
         nuevoCliente.setFechaInicio(LocalDate.now());
         nuevoCliente.setFechaVencimiento(request.getFechaVencimiento());
@@ -56,7 +61,35 @@ public class registroClienteService {
         nuevoUsuario.setPasswordHash(passwordEncoder.encode(request.getPasswordAdmin()));
         nuevoUsuario.setRol(rolAdmin);
         nuevoUsuario.setCreatedAt(LocalDateTime.now());
+        
+        crearUsuarioEnBdCliente(request);
 
         usuarioClienteRepository.save(nuevoUsuario);
+    }
+    
+    
+    private void crearUsuarioEnBdCliente(registroClienteRequest request) {
+        try {
+            DriverManagerDataSource ds = new DriverManagerDataSource();
+            ds.setUrl(request.getDbUrl());
+            ds.setUsername(request.getDbUsername());
+            ds.setPassword(request.getDbPassword());
+            ds.setDriverClassName("org.postgresql.Driver");
+
+            JdbcTemplate jdbc = new JdbcTemplate(ds);
+
+            String passwordHash = passwordEncoder.encode(request.getPasswordAdmin());
+
+            jdbc.update(
+                "INSERT INTO usuarios (nombre, email, password_hash, rol_id, activo, created_at) " +
+                "VALUES (?, ?, ?, 2, true, NOW()) ON CONFLICT (email) DO NOTHING",
+                request.getNombreContacto(),
+                request.getEmailAdmin(),
+                passwordHash
+            );
+        } catch (Exception e) {
+            System.err.println("Error al crear usuario en BD cliente: " + e.getMessage());
+            throw new RuntimeException("No se pudo crear el usuario en la base de datos del cliente: " + e.getMessage());
+        }
     }
 }

@@ -1,60 +1,104 @@
 <div class="admin">
   <div class="admin-header">
-    <h2 class="admin-titulo">Clientes registrados</h2>
-    <button class="btn-nuevo" (click)="mostrarFormulario = !mostrarFormulario">
-      <i class="ti ti-plus"></i> Nuevo cliente
+    <h2 class="admin-titulo">{{ t.superadmin.panelcontrol.titulo }}</h2>
+    <button class="btn-nuevo" (click)="mostrarModalCrear = true">
+      <i class="ti ti-plus"></i> {{ t.superadmin.panelcontrol.btnNuevo }}
     </button>
   </div>
 
-  <!-- FORMULARIO -->
-  <div class="formulario" *ngIf="mostrarFormulario">
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Nombre del local</label>
-        <input type="text" [(ngModel)]="nuevoCliente.nombreLocal" placeholder="Ej: Peluquería El Estilo" />
+  <!-- MODAL CREAR -->
+  <div class="modal-overlay" *ngIf="mostrarModalCrear" (click)="cerrarModales()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ t.superadmin.panelcontrol.modalCrear }}</h3>
+        <button class="btn-cerrar" (click)="cerrarModales()"><i class="ti ti-x"></i></button>
       </div>
-      <div class="form-group">
-        <label>Nombre del contacto</label>
-        <input type="text" [(ngModel)]="nuevoCliente.nombreContacto" placeholder="Ej: Carlos Pérez" />
+      <div class="form-grid">
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.nombreLocal }}</label>
+          <input type="text" [(ngModel)]="nuevoCliente.nombreLocal" placeholder="Ej: Peluquería El Estilo"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.nombreContacto }}</label>
+          <input type="text" [(ngModel)]="nuevoCliente.nombreContacto" placeholder="Ej: Carlos Pérez"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.telefono }}</label>
+          <input type="text" [(ngModel)]="nuevoCliente.telefono" placeholder="Ej: 3001234567"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.emailLocal }}</label>
+          <input type="email" [(ngModel)]="nuevoCliente.emailLocal" placeholder="Ej: local@email.com"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.dbUrl }}</label>
+          <input type="text" [(ngModel)]="nuevoCliente.dbUrl" placeholder="jdbc:postgresql://..."/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.dbUsername }}</label>
+          <input type="text" [(ngModel)]="nuevoCliente.dbUsername" placeholder="Ej: postgres.xxxxxxxx"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.dbPassword }}</label>
+          <input type="password" [(ngModel)]="nuevoCliente.dbPassword" placeholder="••••••••"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.fechaVencimiento }}</label>
+          <input type="date" [(ngModel)]="nuevoCliente.fechaVencimiento"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.emailAdmin }}</label>
+          <input type="email" [(ngModel)]="nuevoCliente.emailAdmin" placeholder="admin@local.com"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.passwordAdmin }}</label>
+          <input type="password" [(ngModel)]="nuevoCliente.passwordAdmin" placeholder="••••••••"/>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Teléfono</label>
-        <input type="text" [(ngModel)]="nuevoCliente.telefono" placeholder="Ej: 3001234567" />
-      </div>
-      <div class="form-group">
-        <label>Email del local</label>
-        <input type="email" [(ngModel)]="nuevoCliente.emailLocal" placeholder="Ej: local@email.com" />
-      </div>
-      <div class="form-group">
-        <label>URL base de datos</label>
-        <input type="text" [(ngModel)]="nuevoCliente.dbUrl" placeholder="jdbc:postgresql://..." />
-      </div>
-      <div class="form-group">
-        <label>Usuario base de datos</label>
-        <input type="text" [(ngModel)]="nuevoCliente.dbUsername" placeholder="Ej: postgres.xxxxxxxx" />
-      </div>
-      <div class="form-group">
-        <label>Contraseña base de datos</label>
-        <input type="password" [(ngModel)]="nuevoCliente.dbPassword" placeholder="••••••••" />
-      </div>
-      <div class="form-group">
-        <label>Fecha vencimiento</label>
-        <input type="date" [(ngModel)]="nuevoCliente.fechaVencimiento" />
-      </div>
-      <div class="form-group">
-        <label>Email admin</label>
-        <input type="email" [(ngModel)]="nuevoCliente.emailAdmin" placeholder="admin@local.com" />
-      </div>
-      <div class="form-group">
-        <label>Contraseña admin</label>
-        <input type="password" [(ngModel)]="nuevoCliente.passwordAdmin" placeholder="••••••••" />
+      <div class="form-actions">
+        <button class="btn-cancelar" (click)="cerrarModales()">{{ t.superadmin.panelcontrol.btnCancelar }}</button>
+        <button class="btn-guardar" (click)="registrarCliente()" [disabled]="cargando">
+          {{ cargando ? t.superadmin.panelcontrol.btnGuardando : t.superadmin.panelcontrol.btnGuardar }}
+        </button>
       </div>
     </div>
-    <div class="form-actions">
-      <button class="btn-cancelar" (click)="mostrarFormulario = false">Cancelar</button>
-      <button class="btn-guardar" (click)="registrarCliente()" [disabled]="cargando">
-        {{ cargando ? 'Guardando...' : 'Guardar' }}
-      </button>
+  </div>
+
+  <!-- MODAL EDITAR -->
+  <div class="modal-overlay" *ngIf="mostrarModalEditar" (click)="cerrarModales()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ t.superadmin.panelcontrol.modalEditar }}</h3>
+        <button class="btn-cerrar" (click)="cerrarModales()"><i class="ti ti-x"></i></button>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.nombreLocal }}</label>
+          <input type="text" [(ngModel)]="clienteEditar.nombreLocal"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.nombreContacto }}</label>
+          <input type="text" [(ngModel)]="clienteEditar.nombreContacto"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.telefono }}</label>
+          <input type="text" [(ngModel)]="clienteEditar.telefono"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.emailLocal }}</label>
+          <input type="email" [(ngModel)]="clienteEditar.emailLocal"/>
+        </div>
+        <div class="form-group">
+          <label>{{ t.superadmin.panelcontrol.form.fechaVencimiento }}</label>
+          <input type="date" [(ngModel)]="clienteEditar.fechaVencimiento"/>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancelar" (click)="cerrarModales()">{{ t.superadmin.panelcontrol.btnCancelar }}</button>
+        <button class="btn-guardar" (click)="guardarEdicion()" [disabled]="cargando">
+          {{ cargando ? t.superadmin.panelcontrol.btnGuardando : t.superadmin.panelcontrol.btnGuardar }}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -63,11 +107,12 @@
     <table class="tabla">
       <thead>
         <tr>
-          <th>Local</th>
-          <th>Contacto</th>
-          <th>Email</th>
-          <th>Vencimiento</th>
-          <th>Estado</th>
+          <th>{{ t.superadmin.panelcontrol.tabla.local }}</th>
+          <th>{{ t.superadmin.panelcontrol.tabla.contacto }}</th>
+          <th>{{ t.superadmin.panelcontrol.tabla.email }}</th>
+          <th>{{ t.superadmin.panelcontrol.tabla.vencimiento }}</th>
+          <th>{{ t.superadmin.panelcontrol.tabla.estado }}</th>
+          <th>{{ t.superadmin.panelcontrol.tabla.acciones }}</th>
         </tr>
       </thead>
       <tbody>
@@ -78,8 +123,21 @@
           <td>{{ cliente.fechaVencimiento | date:'dd/MM/yyyy' }}</td>
           <td>
             <span class="badge" [class.activo]="cliente.activo" [class.inactivo]="!cliente.activo">
-              {{ cliente.activo ? 'Activo' : 'Inactivo' }}
+              {{ cliente.activo ? t.superadmin.panelcontrol.activo : t.superadmin.panelcontrol.inactivo }}
             </span>
+          </td>
+          <td>
+            <div class="acciones">
+              <button class="btn-accion editar" (click)="abrirEditar(cliente)">
+                <i class="ti ti-edit"></i>
+              </button>
+              <button class="btn-accion toggle" (click)="toggleActivo(cliente)">
+                <i class="ti" [class.ti-lock]="cliente.activo" [class.ti-lock-open]="!cliente.activo"></i>
+              </button>
+              <button class="btn-accion eliminar" (click)="eliminarCliente(cliente)">
+                <i class="ti ti-trash"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>

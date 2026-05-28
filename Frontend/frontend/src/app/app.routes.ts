@@ -14,9 +14,9 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'agenda', component: AgendaComponent },
-      { path: 'panelcontrol', component: PanelcontrolComponent },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { soloClientes: true } },
+      { path: 'agenda', component: AgendaComponent, canActivate: [AuthGuard], data: { soloClientes: true } },
+      { path: 'panelcontrol', component: PanelcontrolComponent, canActivate: [AuthGuard], data: { superadmin: true } },
     ]
   },
   { path: '**', redirectTo: 'login' }

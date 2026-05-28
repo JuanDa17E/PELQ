@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-
 export interface Cliente {
   id: string;
   nombreLocal: string;
   nombreContacto: string;
+  telefono: string;
   email: string;
   dbUrl: string;
   activo: boolean;
@@ -27,7 +27,20 @@ export class panelcontrolService {
   listarClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.apiUrl}/clientes`);
   }
+
   registrarCliente(cliente: any): Observable<void> {
-  return this.http.post<void>(`${this.apiUrl}/clientes`, cliente);
-}
+    return this.http.post<void>(`${this.apiUrl}/clientes`, cliente);
+  }
+
+  editarCliente(id: string, cliente: any): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/clientes/${id}`, cliente);
+  }
+
+  toggleActivo(id: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/clientes/${id}/toggle`, {});
+  }
+
+  eliminarCliente(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/clientes/${id}`);
+  }
 }

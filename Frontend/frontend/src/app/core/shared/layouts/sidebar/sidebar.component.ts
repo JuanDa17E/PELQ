@@ -28,6 +28,8 @@ export class SidebarComponent implements OnInit {
     private storageService: StorageService,
     private inactividadService: inactividadService
   ) {}
+
+  
     
 
   t = txt;
@@ -35,6 +37,12 @@ export class SidebarComponent implements OnInit {
   nombreLocal: string = '';
   rol: string = '';
   iniciales: string = '';
+  esSuperadmin: boolean = false;
+
+  navSuperadmin: NavItem[] = [
+  { icono: 'ti-layout-dashboard', label: this.t.superadmin.dashboard, ruta: '/admin/dashboard' },
+  { icono: 'ti-users',            label: this.t.superadmin.clientes,  ruta: '/panelcontrol'    },
+  ];
 
   navPrincipal: NavItem[] = [
     { icono: 'ti-layout-dashboard', label: this.t.nav.items.dashboard,      ruta: '/dashboard'      },
@@ -47,6 +55,7 @@ export class SidebarComponent implements OnInit {
     { icono: 'ti-user',     label: this.t.nav.items.empleados,  ruta: '/empleados'  },
     { icono: 'ti-scissors', label: this.t.nav.items.servicios,  ruta: '/servicios'  },
   ];
+  
 
   navOperaciones: NavItem[] = [
     { icono: 'ti-box',       label: this.t.nav.items.inventario, ruta: '/inventario' },
@@ -63,6 +72,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.nombreLocal = this.storageService.obtenerNombreLocal();
     this.rol = this.storageService.obtenerRol();
+    this.esSuperadmin = this.storageService.esSuperadmin();
     this.iniciales = this.nombreLocal
         .split(' ')
         .map(p => p[0])

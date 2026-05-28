@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 
@@ -14,12 +14,26 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ) {}
 
-  canActivate(): boolean {
-    if (this.authService.estaAutenticado()) {
-      return true;
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    if (!this.authService.estaAutenticado()) {
+      this.storageService.limpiar();
+      this.router.navigate(['/login']);
+      return false;
     }
-    this.storageService.limpiar();
-    this.router.navigate(['/login']);
-    return false;
+
+    const requiereSuperadmin = route.data['superadmin'];
+    const soloClientes = route.data['soloClientes'];
+
+    if (requiereSuperadmin && !this.storageService.esSuperadmin()) {
+      this.router.navigate(['/dashboard']);
+      return false;
+    }
+
+    if (soloClientes && this.storageService.esSuperadmin()) {
+      this.router.navigate(['/panelcontrol']);
+      return false;
+    }
+
+    return true;
   }
 }

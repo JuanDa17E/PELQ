@@ -48,7 +48,5 @@ export class TopbarComponent implements OnInit {
     this.labelBoton = pagina?.boton || '';
   }
 
-  accionPrimaria(): void {
-    this.accion.emit();
-  }
+  
 }
